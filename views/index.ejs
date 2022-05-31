@@ -1,0 +1,130 @@
+<%- include("templates/header") %>
+  <div class="container-fluid p-5">
+    <h1 class="h1 pb-2 text-center">Sistema de Agenda</h1>
+    <div  class="containerInput">
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Registrar nuevo usuario
+      </button>
+    </div>
+    <div class="row">
+      <table class="table table-condensed mt-4 text-center table-dark table-striped table-bordered table-responsive" border="1">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellidos</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Fecha de Nacimiento</th>
+            <th scope="col">Imagen</th>
+            <th scope="col">Accion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% agen.forEach( agenda=> { %>
+            <tr>
+              <th scope="row">
+                <%= agenda.id %>
+              </th>
+              <td>
+                <%= agenda.nombre %>
+              </td>
+              <td>
+                <%= agenda.apellidos %>
+              </td>
+              <td>
+                <%= agenda.correo %>
+              </td>
+              <td>
+                <%= agenda.fecha_nac %>
+              </td>
+              <% if(agenda.imagen != '') { %>
+                  <td>
+                  <img  
+                  src="https://azgendabucket.s3.amazonaws.com/<%= agenda.imagen %>" alt="" width="250px" height="150px">
+                  </td>
+              <% } %>
+              <% if(agenda.imagen == ''){ %>
+              <td>
+                <form action="/uploadImage<%=agenda.id%>" method="post" enctype="multipart/form-data">
+                  <div class="row d-flex">
+                    <div class="col-9">
+                      <input type="file" class="form-control" required name="imagen" id="imagen">
+                    </div>
+                    <div class="col-3">
+                      <input type="submit" class="btn btn-primary" value="Enviar">
+                    </div>
+                  </div>
+                </form>
+              </td>
+              <% } %>
+              <td>
+                <a type="button" class="btn btn-primary" href="/update<%= agenda._id %>">
+                  Editar
+                </a>
+                <br>
+                <form action="/delete<%=agenda._id%>" method="post">
+                  <input type="text" hidden="true" id="imagendelete" name="imagendelete" value="<%= agenda.imagen %>">
+                  <br>
+                  <input type="submit" class="btn btn-danger" role="button" value="Eliminar"  >
+                </form>
+              </td>
+            </tr>
+            <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Nuevo producto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/create" method="post">
+          <div class="modal-body">
+            <div class="row">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">ID</label>
+                <input type="text" class="form-control" placeholder="G01" required name="id" id="id">
+              </div>
+            </div>
+            <div class="row">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Nombre</label>
+                <input type="text" class="form-control" placeholder="Cosme" required name="nombre" id="nombre">
+              </div>
+            </div>
+            <div class="row">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Apellidos</label>
+                <input type="text" class="form-control" placeholder="Fulanito" required name="apellidos"
+                  id="apellidos">
+              </div>
+            </div>
+            <div class="row">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Correo</label>
+                <input type="text" class="form-control" name="correo" id="correo" placeholder="abc@gmail.com">
+              </div>
+            </div>
+            <div class="row">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Fecha de Nacimiento</label>
+                <input type="text" class="form-control" placeholder="14-10-2001" required name="fecha_nac" id="fecha_nac">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" value="Registrar" class="btn btn-success">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <%- include("templates/footer") %>

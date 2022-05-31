@@ -1,0 +1,59 @@
+<%- include("templates/header") %>
+
+<div class="container-fluid p-5">
+    
+    <form action="/updateproduct<%= agen._id %>" method="post">
+        <div class="modal-body">
+          <h2 class="mb-3">Actualizar Usuario</h2>
+          <div class="row">
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">Nombre</label>
+              <input type="text" class="form-control" placeholder="Cosme" required name="nombre" id="nombre" value="<%= agen.nombre %>">
+            </div>
+          </div>
+          <div class="row">
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">Apellidos</label>
+              <input type="text" class="form-control" placeholder="Fulanito" required name="apellidos" value="<%= agen.apellidos %>"
+                id="apellidos">
+            </div>
+          </div>
+          <div class="row">
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">Correo</label>
+              <input type="text" class="form-control" name="correo" id="correo" placeholder="abc@gmail.com" value="<%= agen.tipo %>">
+            </div>
+          </div>
+          <div class="row">
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">Fecha de Nacimiento</label>
+              <input type="text" class="form-control" placeholder="14-10-2001" required name="fecha_nac" id="fecha_nac" value="<%= agen.precio %>">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="/" class="btn btn-danger" >Cancelar</a>
+          <input type="submit" value="Actualizar" class="btn btn-success">
+        </div>
+      </form>
+      <% if(agen.imagen != ''){%>
+        <div class="row">
+          <div class="mb-3 col-3">
+            <label class="form-label">Cambiar imagen (<%= agen.imagen %>)</label>
+            <form action="/updateImage<%= agen.id %>" method="post" enctype="multipart/form-data">
+              <div class="row d-flex">
+                <div class="col-9">
+                  <input type="text" hidden="true" required name="imagendelete" id="imagendelete" value="<%= agen.imagen %>">
+                  <input type="file" class="form-control" required name="imagenupdate" id="imagenupdate">
+                </div>
+                <div class="col-3">
+                  <input class="btn btn-primary" type="submit" value="Enviar">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      <%} %>
+</div>
+
+<%- include("templates/footer") %>
